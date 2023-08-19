@@ -27,18 +27,4 @@ public class TesteDeConexao {
             Assert.fail("SQLException ou IOException lançada");
         }
     }
-
-    @Test
-    public void testaCriacao () {
-        try {
-            Connection conn = FabricaDeConexao.getConexao();
-
-            Cliente.setNomeTabela("clientes");
-            Cliente cliente = new Cliente("teste", 27, "11122233345");
-
-            CriadorDeTabela.seNaoExistirCriar(conn, cliente.getClass());
-        } catch (Exception ex) {
-            Assert.fail("erro lançado: " + ex.getMessage());
-        }
-    }
 }

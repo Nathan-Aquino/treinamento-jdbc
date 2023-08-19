@@ -1,6 +1,5 @@
 package util;
 
-import java.lang.reflect.Field;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -8,10 +7,9 @@ import java.sql.SQLException;
 
 public class CriadorDeTabela {
 
-    public static void seNaoExistirCriar (Connection conn, Class classe) throws NoSuchFieldException, IllegalAccessException, SQLException {
-        Field nomeTabelaCampo = classe.getDeclaredField("nomeTabela");
+    public static <T> void seNaoExistirCriar (Connection conn, T objeto) throws SQLException {
 
-        String nomeTabela = (String) nomeTabelaCampo.get(null);
+        String nomeTabela = Resolve.nomeTabela(objeto);
 
         String select = "SELECT 1 FROM information_schema.tables WHERE table_name = '" + nomeTabela + "'";
 
@@ -19,7 +17,7 @@ public class CriadorDeTabela {
 
         ResultSet rs = ps.executeQuery();
 
-        if (rs == null) {
+        if (!rs.next()) {
             switch (nomeTabela) {
                 case "clientes":
                     String createCliente = "CREATE TABLE clientes (" +

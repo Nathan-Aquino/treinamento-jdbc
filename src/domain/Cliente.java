@@ -1,7 +1,9 @@
 package domain;
 
+import domain.annotation.NomeTabela;
 import util.GeradorDeId;
 
+@NomeTabela(valor="clientes")
 public class Cliente {
 
     private Integer id;
@@ -9,21 +11,11 @@ public class Cliente {
     private Integer idade;
     private String cpf;
 
-    private static String nomeTabela;
-
     public Cliente (String nome, Integer idade, String cpf) {
         this.id = GeradorDeId.gerar(nome, cpf);
         this.nome = nome;
         this.idade = idade;
         this.cpf = cpf;
-    }
-
-    public static void setNomeTabela (String nomeTabela) {
-        nomeTabela = nomeTabela;
-    }
-
-    public String getNomeTabela () {
-        return nomeTabela;
     }
 
     public Integer getId() {
