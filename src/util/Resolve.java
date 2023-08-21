@@ -59,11 +59,7 @@ public class Resolve {
         Method[] methods = objeto.getClass().getMethods();
 
         for (int j = 0; j < methods.length; j++) {
-<<<<<<< HEAD
             ps.setString(j + 1, methods[j].invoke(objeto).toString());
-=======
-            ps.setString(j + 1, methods[j].invoke(objeto.getClass()).toString());
->>>>>>> 61791b3... 21/08/2023-00:32
         }
 
         return ps;
