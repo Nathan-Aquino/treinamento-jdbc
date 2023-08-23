@@ -1,6 +1,7 @@
 package domain;
 
 import domain.annotation.NomeTabela;
+import domain.annotation.OrdemMetodos;
 import util.GeradorDeId;
 
 import java.util.Map;
@@ -27,18 +28,22 @@ public class Produto {
         this.quantidade = Integer.parseInt(map.get(3));
     }
 
+    @OrdemMetodos(valor = 1)
     public String getId() {
         return id;
     }
 
+    @OrdemMetodos(valor = 2)
     public String getNome() {
         return nome;
     }
 
+    @OrdemMetodos(valor = 3)
     public String getCodigo() {
         return codigo;
     }
 
+    @OrdemMetodos(valor = 4)
     public Integer getQuantidade() {
         return quantidade;
     }

@@ -2,6 +2,7 @@ package util;
 
 import domain.Cliente;
 import domain.annotation.NomeTabela;
+import domain.annotation.OrdemMetodos;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
@@ -12,6 +13,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -56,10 +58,27 @@ public class Resolve {
 
         PreparedStatement ps = conn.prepareStatement(insertSb.toString());
 
-        Method[] methods = objeto.getClass().getMethods();
+        Method[] methods = objeto.getClass().getDeclaredMethods();
+
+        for (int z = 0; z < methods.length; z++) {
+            for (int x = 0; x < methods.length - z - 1; x++) {
+                int indice1 = methods[x].getAnnotation(OrdemMetodos.class).valor();
+                int indice2 = methods[x + 1].getAnnotation(OrdemMetodos.class).valor();
+
+                if (indice1 > indice2) {
+                    Method temp = methods[x];
+                    methods[x] = methods[x + 1];
+                    methods[x + 1] = temp;
+                }
+            }
+        }
 
         for (int j = 0; j < methods.length; j++) {
-            ps.setString(j + 1, methods[j].invoke(objeto).toString());
+            if (methods[j].getReturnType().equals(Integer.class)) {
+                ps.setInt(j + 1, Integer.parseInt(methods[j].invoke(objeto).toString()));
+            } else {
+                ps.setString(j + 1, methods[j].invoke(objeto).toString());
+            }
         }
 
         return ps;
