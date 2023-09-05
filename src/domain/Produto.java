@@ -28,6 +28,9 @@ public class Produto {
         this.quantidade = Integer.parseInt(map.get(3));
     }
 
+    public Produto () {
+    }
+
     @OrdemMetodos(valor = 1)
     public String getId() {
         return id;
